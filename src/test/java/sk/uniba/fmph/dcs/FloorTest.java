@@ -10,17 +10,6 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
-class FakeUsedTiles implements UsedTilesGiveInterface {
-  public ArrayList<Tile> tiles;
-
-  public FakeUsedTiles() {
-    tiles = new ArrayList<Tile>();
-  }
-
-  public void give(Collection<Tile> t) {
-    tiles.addAll(t);
-  }
-}
 
 public class FloorTest {
   private FakeUsedTiles usedTiles;

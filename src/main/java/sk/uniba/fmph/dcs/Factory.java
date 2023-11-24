@@ -9,12 +9,14 @@ public class Factory implements TileSource {
     private final Bag bag;
 
     public Factory(TableCenterAddInterface tableCenter, Bag bag) {
+        tiles = new ArrayList<>();
         this.tableCenter = tableCenter;
         this.bag = bag;
     }
 
     @Override
     public ArrayList<Tile> take(int idx) {
+        if(idx < 0 || idx >= tiles.size()) throw new IllegalArgumentException("Invalid index");
         Tile pickedTile = tiles.get(idx);
         ArrayList<Tile> pickedTiles = new ArrayList<>();
         for (int i = 0; i < tiles.size(); i++) {
@@ -40,7 +42,7 @@ public class Factory implements TileSource {
     }
 
     @Override
-    public String State() {
+    public String state() {
         String toReturn = "";
         for (final Tile tile : tiles) {
             toReturn += tile.toString();

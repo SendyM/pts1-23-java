@@ -15,6 +15,7 @@ public class Bag {
         int numberOfEachTile = bagSize / numberOfDifferentTiles;
         tiles = new ArrayList<>();
         for (Tile tile : Tile.values()) {
+            if (tile == Tile.STARTING_PLAYER) continue;
             for (int i = 0; i < numberOfEachTile; i++) {
                 tiles.add(tile);
             }
@@ -27,6 +28,7 @@ public class Bag {
         for (int i = 0; i < count; i++) {
             if (tiles.isEmpty()) {
                 tiles.addAll(usedTiles.takeAll());
+                if(tiles.size() < count - i) throw new IllegalArgumentException("Not enough tiles in bag and used tiles combined");
                 Collections.shuffle(tiles);
             }
             takenTiles.add(tiles.remove(0));
@@ -34,7 +36,12 @@ public class Bag {
         return takenTiles;
     }
 
-    public String State() {
+    // for testing
+    public void setTiles(ArrayList<Tile> tiles) {
+        this.tiles = tiles;
+    }
+
+    public String state() {
         String toReturn = "";
         for (final Tile tile : tiles) {
             toReturn += tile.toString();

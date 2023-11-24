@@ -6,5 +6,5 @@ public interface TileSource {
     ArrayList<Tile> take(int idx);
     boolean isEmpty();
     void startNewRound();
-    String State();
+    String state();
 }

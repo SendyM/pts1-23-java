@@ -14,6 +14,7 @@ public class PatternLine {
         this.usedTiles = usedTiles;
         this.capacity = capacity;
         this.wallLine = wallLine;
+        this.floor = floor;
     }
 
     public void put(ArrayList<Tile> tilesToAdd) {

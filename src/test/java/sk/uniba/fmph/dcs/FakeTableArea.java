@@ -10,17 +10,22 @@ public class FakeTableArea implements TableAreaInterface{
     }
     @Override
     public ArrayList<Tile> take(int sourceIdx, int idx) {
-        return null;
+        return tileSources.get(sourceIdx).take(idx);
     }
 
     @Override
     public boolean isRoundEnd() {
-        return false;
+        for(TileSource tileSource : tileSources){
+            if(!tileSource.isEmpty()) return false;
+        }
+        return true;
     }
 
     @Override
     public void startNewRound() {
-
+        for(TileSource tileSource : tileSources){
+            tileSource.startNewRound();
+        }
     }
 
     @Override

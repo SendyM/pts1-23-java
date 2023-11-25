@@ -7,6 +7,7 @@ public class Game implements GameInterface{
     private final TableAreaInterface tableArea;
     private ArrayList<BoardInterface> playerBoards;
     private int currentPlayerId;
+    private int startingPlayerId;
     private int playerCount;
     private GameObserverInterface gameObserver;
     boolean isGameOver;
@@ -18,8 +19,10 @@ public class Game implements GameInterface{
         this.tableArea = tableArea;
         this.playerBoards = playerBoards;
         this.isGameOver = false;
+        this.tableArea.startNewRound();
         Random random = new Random();
-        currentPlayerId = random.nextInt(playerCount);
+        startingPlayerId = random.nextInt(playerCount);
+        currentPlayerId = startingPlayerId;
         gameObserver.notifyEveryBody("Game started");
         gameObserver.notifyEveryBody("Player " + currentPlayerId + " starts");
     }
@@ -32,13 +35,17 @@ public class Game implements GameInterface{
         if(playerId != currentPlayerId) return false;
         ArrayList<Tile> tiles = tableArea.take(sourceId, idx);
         if(tiles.isEmpty()) return false;
-
+        if(tiles.contains(Tile.STARTING_PLAYER)) startingPlayerId = currentPlayerId;
         playerBoards.get(playerId).put(destinationIdx, tiles);
         if(tableArea.isRoundEnd()){
             handleRoundEnd();
+            currentPlayerId = startingPlayerId;
             if(isGameOver) return finishGame();
+            gameObserver.notifyEveryBody("Player " + currentPlayerId + " starts this round");
+        }else{
+            currentPlayerId = (currentPlayerId + 1) % playerCount;
+            gameObserver.notifyEveryBody("Player " + currentPlayerId + " plays");
         }
-        currentPlayerId = (currentPlayerId + 1) % playerCount;
         return true;
     }
 
@@ -76,6 +83,10 @@ public class Game implements GameInterface{
         }
         gameObserver.notifyEveryBody("Player " + winnerId + " won with " + maxPoints + " points");
         return true;
+    }
+    // for testing purposes.
+    public int getCurrentPlayerId(){
+        return currentPlayerId;
     }
 
 }

@@ -27,15 +27,17 @@ public class PatternLineTest {
         floor = new Floor(usedTiles,pointPattern);
         patternLine = new PatternLine(3, fakeWallLine, floor, usedTiles);
     }
+
     @Test
     public void testPutTiles() {
         // Put 2 red tiles on the pattern line.
         patternLine.put(new ArrayList<>(Arrays.asList(Tile.RED, Tile.RED)));
-        assertEquals("RR.", patternLine.state()); // Verify that the pattern line contains the red tile.
+        assertEquals("RR.", patternLine.state()); // Verify that the pattern line contains the red tiles.
     }
 
     @Test
     public void testPutTiles_WrongTileColor() {
+        patternLine.put(new ArrayList<>(Arrays.asList(Tile.RED, Tile.RED)));
         // Try to put a blue tile on the pattern line.
         patternLine.put(new ArrayList<>(Collections.singletonList(Tile.BLUE))); //Should go to the floor.
         assertEquals("B", floor.state()); // Verify that the floor contains the blue tile.
@@ -44,17 +46,23 @@ public class PatternLineTest {
 
     @Test
     public void testPutTiles_Overflow() {
+        patternLine.put(new ArrayList<>(Arrays.asList(Tile.RED, Tile.RED)));
+        patternLine.put(new ArrayList<>(Collections.singletonList(Tile.BLUE)));
         //Try to put 3 red tiles on the pattern line (2 should go to the floor).
         patternLine.put(new ArrayList<>(Arrays.asList(Tile.RED, Tile.RED, Tile.RED)));
-        assertEquals("RRR", floor.state()); // Verify that the pattern line is full.
+        assertEquals("RRR", patternLine.state()); // Verify that the pattern line is full.
         // Verify that the floor received the extra tiles.
         assertEquals("BRR", floor.state());
     }
 
     @Test
     public void testFinishRound_PatternLineFull() {
+        patternLine.put(new ArrayList<>(Arrays.asList(Tile.RED, Tile.RED)));
+        patternLine.put(new ArrayList<>(Collections.singletonList(Tile.BLUE)));
+        patternLine.put(new ArrayList<>(Arrays.asList(Tile.RED, Tile.RED, Tile.RED)));
+
         assertEquals(new Points(1), patternLine.finishRound()); // Assuming putting a tile gives 1 point
-        assertEquals("", patternLine.state()); // Verify that the pattern line is empty now.
+        assertEquals("...", patternLine.state()); // Verify that the pattern line is empty now.
     }
 
     @Test

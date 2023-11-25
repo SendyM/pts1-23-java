@@ -10,7 +10,7 @@ public class PatternLine {
     private Floor floor;
 
     public PatternLine(int capacity, WallLineInterface wallLine, Floor floor, UsedTilesGiveInterface usedTiles) {
-        tiles = new ArrayList<>();
+        this.tiles = new ArrayList<>();
         this.usedTiles = usedTiles;
         this.capacity = capacity;
         this.wallLine = wallLine;
@@ -20,7 +20,9 @@ public class PatternLine {
     public void put(ArrayList<Tile> tilesToAdd) {
         if(tilesToAdd.isEmpty()) return;
         if(!tiles.isEmpty() && tilesToAdd.get(0) != tiles.get(0)) {
-            floor.put(tilesToAdd);
+            for (int i = 0; i < tilesToAdd.size(); i++) {
+                floor.put(tilesToAdd);
+            }
             return;
         }
         while(this.tiles.size() < capacity && !tilesToAdd.isEmpty() && wallLine.canPutTile(tilesToAdd.get(0))) {
@@ -45,6 +47,9 @@ public class PatternLine {
         String toReturn = "";
         for (final Tile tile : tiles) {
             toReturn += tile.toString();
+        }
+        for (int i = 0; i < capacity - tiles.size(); i++) {
+            toReturn += ".";
         }
         return toReturn;
     }

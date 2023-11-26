@@ -9,11 +9,11 @@ public class Game implements GameInterface{
     private int currentPlayerId;
     private int startingPlayerId;
     private int playerCount;
-    private GameObserverInterface gameObserver;
+    private ObserverInterface gameObserver;
     boolean isGameOver;
 
 
-    public Game(int playerCount, ArrayList<BoardInterface> playerBoards, TableAreaInterface tableArea, GameObserverInterface gameObserver){
+    public Game(int playerCount, ArrayList<BoardInterface> playerBoards, TableAreaInterface tableArea, ObserverInterface gameObserver){
         this.gameObserver = gameObserver;
         this.playerCount = playerCount;
         this.tableArea = tableArea;

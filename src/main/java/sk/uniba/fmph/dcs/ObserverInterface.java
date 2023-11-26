@@ -1,5 +1,5 @@
 package sk.uniba.fmph.dcs;
 
-public interface GameObserverInterface {
+public interface ObserverInterface {
     void notifyEveryBody(String newState);
 }

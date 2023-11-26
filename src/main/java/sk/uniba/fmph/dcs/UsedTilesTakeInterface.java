@@ -1,7 +1,8 @@
 package sk.uniba.fmph.dcs;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public interface UsedTilesTakeInterface {
-    ArrayList<Tile> takeAll();
+    Collection<Tile> takeAll();
 }

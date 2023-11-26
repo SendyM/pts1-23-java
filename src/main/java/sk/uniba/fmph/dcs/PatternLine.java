@@ -1,8 +1,9 @@
 package sk.uniba.fmph.dcs;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class PatternLine {
+public class PatternLine implements PatternLineInterface{
     private final int capacity;
     private ArrayList<Tile> tiles;
     private final WallLineInterface wallLine;
@@ -17,7 +18,7 @@ public class PatternLine {
         this.floor = floor;
     }
 
-    public void put(ArrayList<Tile> tilesToAdd) {
+    public void put(List<Tile> tilesToAdd) {
         if(tilesToAdd.isEmpty()) return;
         if(!tiles.isEmpty() && tilesToAdd.get(0) != tiles.get(0)) {
             for (int i = 0; i < tilesToAdd.size(); i++) {

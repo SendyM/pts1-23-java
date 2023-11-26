@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.List;
 import java.util.Optional;
 
-public class GameFinished {
+public class GameFinished implements GameFinishedInterface{
 
     public FinishRoundResult gameFinished(List<List<Optional<Tile>>> wall){
         Horizontal horizontal = new Horizontal();

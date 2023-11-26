@@ -32,7 +32,7 @@ public class TableArea implements TableAreaInterface{
     public String state() {
         String toReturn = "";
         for (final TileSource tileSource : tileSources) {
-            toReturn += tileSource.toString();
+            toReturn += tileSource.state();
         }
         return toReturn;
     }

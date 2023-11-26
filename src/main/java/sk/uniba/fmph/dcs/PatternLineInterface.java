@@ -1,5 +1,6 @@
 package sk.uniba.fmph.dcs;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface PatternLineInterface {

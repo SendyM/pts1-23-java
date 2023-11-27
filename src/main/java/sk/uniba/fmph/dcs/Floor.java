@@ -32,7 +32,7 @@ public final class Floor {
       sum +=
           (i < pointPattern.size()
                   ? pointPattern.get(i)
-                  : pointPattern.get(pointPattern.size() - 1))
+                  : new Points(0)) // pointPattern.get(pointPattern.size() - 1))
               .getValue();
     }
     usedTiles.give(tiles);

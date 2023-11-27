@@ -37,6 +37,16 @@ public class FakeWallLine implements WallLineInterface{
     }
 
     @Override
+    public void setLineUp(WallLine lineUp) {
+
+    }
+
+    @Override
+    public void setLineDown(WallLine lineDown) {
+
+    }
+
+    @Override
     public String state() {
         ArrayList<Optional<Tile>> tiles = getTiles();
         String toReturn = "";

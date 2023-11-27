@@ -7,5 +7,7 @@ public interface WallLineInterface {
     boolean canPutTile(Tile tile);
     List<Optional<Tile>> getTiles();
     Points putTile(Tile tile);
+    void setLineUp(WallLine lineUp);
+    void setLineDown(WallLine lineDown);
     String state();
 }

@@ -10,8 +10,8 @@ public class Game implements GameInterface{
     private int startingPlayerId;
     private int playerCount;
     private ObserverInterface gameObserver;
-    boolean isGameOver;
-
+    private int seed;
+    public boolean isGameOver;
 
     public Game(int playerCount, ArrayList<BoardInterface> playerBoards, TableAreaInterface tableArea, ObserverInterface gameObserver){
         this.gameObserver = gameObserver;
@@ -19,32 +19,36 @@ public class Game implements GameInterface{
         this.tableArea = tableArea;
         this.playerBoards = playerBoards;
         this.isGameOver = false;
+        this.seed = 0;
         this.tableArea.startNewRound();
-        Random random = new Random();
+        Random random = new Random(seed);
         startingPlayerId = random.nextInt(playerCount);
         currentPlayerId = startingPlayerId;
-        gameObserver.notifyEveryBody("Game started");
-        gameObserver.notifyEveryBody("Player " + currentPlayerId + " starts");
+        gameObserver.notifyEverybody("Game started");
+        gameObserver.notifyEverybody("Player " + currentPlayerId + " starts");
     }
     @Override
     public boolean take(int playerId, int sourceId, int idx, int destinationIdx){
         if(isGameOver) {
-            gameObserver.notifyEveryBody("You cant take because the Game is Finished");
+            gameObserver.notifyEverybody("You cant take because the Game is Finished");
             return false;
         }
         if(playerId != currentPlayerId) return false;
         ArrayList<Tile> tiles = tableArea.take(sourceId, idx);
         if(tiles.isEmpty()) return false;
         if(tiles.contains(Tile.STARTING_PLAYER)) startingPlayerId = currentPlayerId;
+        ArrayList<Tile> tilesToPrint = new ArrayList<>(tiles);
         playerBoards.get(playerId).put(destinationIdx, tiles);
+        gameObserver.notifyEverybody("Player " + playerId + " took " + tilesToPrint +
+                                    " from " + sourceId + " placed to: "+ destinationIdx + "\nHis pattern lines after placing:\n" + playerBoards.get(playerId).state().substring(0, 35));
         if(tableArea.isRoundEnd()){
             handleRoundEnd();
             currentPlayerId = startingPlayerId;
             if(isGameOver) return finishGame();
-            gameObserver.notifyEveryBody("Player " + currentPlayerId + " starts this round");
+            gameObserver.notifyEverybody("Player " + currentPlayerId + " starts this round");
         }else{
             currentPlayerId = (currentPlayerId + 1) % playerCount;
-            gameObserver.notifyEveryBody("Player " + currentPlayerId + " plays");
+            gameObserver.notifyEverybody("Player " + currentPlayerId + " plays");
         }
         return true;
     }
@@ -61,10 +65,10 @@ public class Game implements GameInterface{
                 board.endGame();
             }
             isGameOver = true;
-            gameObserver.notifyEveryBody("Game finished");
+            gameObserver.notifyEverybody("Game finished");
         }
         else{
-            gameObserver.notifyEveryBody("Round finished");
+            gameObserver.notifyEverybody("Round finished");
             tableArea.startNewRound();
         }
 
@@ -75,13 +79,13 @@ public class Game implements GameInterface{
         int winnerId = 0;
         for(int i = 0; i < playerCount; i++){
             int points = playerBoards.get(i).getPoints().getValue();
-            gameObserver.notifyEveryBody("Player " + i + " has " + points + " points");
+            gameObserver.notifyEverybody("Player " + i + " has " + points + " points");
             if(points > maxPoints){
                 maxPoints = points;
                 winnerId = i;
             }
         }
-        gameObserver.notifyEveryBody("Player " + winnerId + " won with " + maxPoints + " points");
+        gameObserver.notifyEverybody("Player " + winnerId + " won with " + maxPoints + " points");
         return true;
     }
     // for testing purposes.

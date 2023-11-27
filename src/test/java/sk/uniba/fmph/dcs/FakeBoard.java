@@ -1,10 +1,11 @@
 package sk.uniba.fmph.dcs;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FakeBoard implements BoardInterface{
     @Override
-    public void put(int destinationIdx, ArrayList<Tile> tiles) {
+    public void put(int destinationIdx, List<Tile> tiles) {
 
     }
 

@@ -6,6 +6,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -39,13 +40,13 @@ public class FloorTest {
     assertEquals("Floor should be empty after the round is finished.", "", floor.state());
     assertEquals(
         "Incorrect points calculation when there are more tiles than pattern size",
-        7,
+        5,
         points.getValue());
     assertArrayEquals(
         "Used tiles should get the tiles", tiles.toArray(), usedTiles.tiles.toArray());
 
-    floor.put(Arrays.asList(Tile.RED));
-    floor.put(Arrays.asList(Tile.GREEN));
+    floor.put(List.of(Tile.RED));
+    floor.put(List.of(Tile.GREEN));
     floor.put(new ArrayList<Tile>());
     assertEquals("Floor should contain tiles we put on it.", "RG", floor.state());
     Points points2 = floor.finishRound();

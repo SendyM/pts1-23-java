@@ -39,12 +39,15 @@ public class Game implements GameInterface{
         if(tiles.contains(Tile.STARTING_PLAYER)) startingPlayerId = currentPlayerId;
         ArrayList<Tile> tilesToPrint = new ArrayList<>(tiles);
         playerBoards.get(playerId).put(destinationIdx, tiles);
-        gameObserver.notifyEverybody("Player " + playerId + " took " + tilesToPrint +
+        if(!(playerBoards.get(playerId).state() == null)) gameObserver.notifyEverybody("Player " + playerId + " took " + tilesToPrint +
                                     " from " + sourceId + " placed to: "+ destinationIdx + "\nHis pattern lines after placing:\n" + playerBoards.get(playerId).state().substring(0, 35));
         if(tableArea.isRoundEnd()){
             handleRoundEnd();
             currentPlayerId = startingPlayerId;
             if(isGameOver) return finishGame();
+            for(BoardInterface board : playerBoards){
+                if(!(board.getPoints() == null)) gameObserver.notifyEverybody("Player " + currentPlayerId + " has " + board.getPoints().getValue() + " points");
+            }
             gameObserver.notifyEverybody("Player " + currentPlayerId + " starts this round");
         }else{
             currentPlayerId = (currentPlayerId + 1) % playerCount;
